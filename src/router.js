@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import BestFriend from "./pages/bestfriend";
 import Calender from "./pages/Calender";
 import CalenderDepth from "./pages/Calender2";
@@ -14,7 +14,6 @@ import Setting from "./pages/setting";
 
 const RouterComponent = () => {
     return (
-      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Setting />} />
           <Route path="/bestFriend" element={<BestFriend />} />
@@ -28,7 +27,6 @@ const RouterComponent = () => {
           <Route path="/main" element={<Main />} />
           <Route path="/mypage" element={<MyPage />} />
         </Routes>
-      </BrowserRouter>
     );
   };
   
