@@ -12,6 +12,7 @@ import MyPage from "./pages/mypage";
 import Signin from "./pages/signin";
 import Setting from "./pages/setting";
 import Mypagedepth from "./pages/mypage2";
+import Addplanmodal from "./pages/Addplanmodal";
 
 const RouterComponent = () => {
     return (
@@ -28,6 +29,7 @@ const RouterComponent = () => {
           <Route path="/main" element={<Main />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypagedepth" element={<Mypagedepth />} />
+          <Route path="/addplanmodal" element={<Addplanmodal/>} />
         </Routes>
     );
   };
