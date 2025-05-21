@@ -11,6 +11,7 @@ import Main from "./pages/main";
 import MyPage from "./pages/mypage";
 import Signin from "./pages/signin";
 import Setting from "./pages/setting";
+import Mypagedepth from "./pages/mypage2";
 
 const RouterComponent = () => {
     return (
@@ -26,6 +27,7 @@ const RouterComponent = () => {
           <Route path="/signin" element={<Signin />} />
           <Route path="/main" element={<Main />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypagedepth" element={<Mypagedepth />} />
         </Routes>
     );
   };
