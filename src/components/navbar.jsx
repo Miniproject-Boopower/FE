@@ -5,6 +5,7 @@ import { BiSolidUser } from "react-icons/bi";
 import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; 
 
+
 const NavContainer = styled.div`
   display: flex;
   flex-direction: row;
