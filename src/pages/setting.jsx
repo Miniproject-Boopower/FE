@@ -46,7 +46,7 @@ export default function Setting() {
       <ChooseButton onClick={() => gotoPage("/mypage")}>mypage</ChooseButton>
       <ChooseButton onClick={() => gotoPage("/signin")}>signin</ChooseButton>
       <ChooseButton onClick={() => gotoPage("/mypagedepth")}>my2</ChooseButton>
-
+      <ChooseButton onClick={() => gotoPage("/addplanmodal")}>addplanmodal</ChooseButton>
     </PageContainer>
   );
 }
