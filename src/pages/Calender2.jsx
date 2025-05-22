@@ -58,6 +58,15 @@ const MemoContainer = styled.div`
     height : 29.75rem;
     display : flex;
     flex-direction: column;
+    background-color: blue;
+`
+
+const ButtonContainer = styled.div`
+    width : 18.5rem;
+    height : 8.81rem;
+    display: flex;
+    flex-direction: column;
+    background-color: yellow;
 `
 
 
@@ -74,6 +83,9 @@ export default function CalenderDepth(){
                     <DayText>5월 22일</DayText>
                     <RightArrow/>
                 </HeaderContianer>
+                <MemoContainer>
+
+                </MemoContainer>
             </PageContainer>
     )
 }
