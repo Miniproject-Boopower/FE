@@ -13,6 +13,7 @@ import Signin from "./pages/signin";
 import Setting from "./pages/setting";
 import Mypagedepth from "./pages/mypage2";
 import Addplanmodal from "./pages/Addplanmodal";
+import AddinfoModal from "./pages/Addinfomodal";
 
 const RouterComponent = () => {
     return (
@@ -30,6 +31,7 @@ const RouterComponent = () => {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/mypagedepth" element={<Mypagedepth />} />
           <Route path="/addplanmodal" element={<Addplanmodal/>} />
+          <Route path="/addinfomodal" element={<AddinfoModal/>} />
         </Routes>
     );
   };
