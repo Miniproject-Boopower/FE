@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { FaRegCheckCircle } from "react-icons/fa";
-import { IoIosInformationCircleOutline } from "react-icons/io";
+import { BiInfoCircle } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 
 const PageContainer = styled.div`
@@ -8,7 +8,7 @@ const PageContainer = styled.div`
     height: 54.625rem;
     flex-direction: Column;
     display: flex;
-    background-color: #FFC3C3;
+    background-color: white;
     padding : 0 2.5rem;
     box-sizing: border-box;
     padding-top : 6rem;
@@ -18,7 +18,7 @@ const SubjectContainer = styled.div`
     width: 20.125rem;
     height: 11.75rem;
     flex-shrink: 0;
-    background-color: yellow;
+    background-color: white;
     padding: 0rem;
     box-sizing: border-box;
     display: flex;
@@ -66,13 +66,13 @@ const SubjectContainerWrite = styled.div`
     `
 const SubjectContainer4 = styled.div`
     width: 20.125rem;
-    height: 2.3125rem;
+    height: 2rem;
     flex-shrink: 0;
-    padding: 0.44rem;
+    padding: 0.6rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: Row;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     `
 const EnterInfoContainer = styled.div`
@@ -123,14 +123,26 @@ const CheckIcon = styled(FaRegCheckCircle)`
     flex-shrink: 0;
     fill: #94E8FD;
     `
-const InfoIcon = styled(IoIosInformationCircleOutline)`
-    width: 0.9375rem;
-    height: 0.9375rem;
+const InfoIcon = styled(BiInfoCircle)`
+    width: 1rem;
+    height: 1rem;
     flex-shrink: 0;
     fill: #94E8FD;
     `
 const PlusIcon = styled(FaPlus)`
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    fill: #010A12;
+`
 
+const TodoInput = styled.input`
+    width: 16.5rem;
+    height: 2.625rem;
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    background: #F0F4F8;
+    border: none;
 `
 export default function Info(){
     return(
@@ -148,12 +160,15 @@ export default function Info(){
                     <SubjectContainerWrite></SubjectContainerWrite>
                 </SubjectContainer3>
                 <SubjectContainer4>
-
+                    <PlusIcon/>
                 </SubjectContainer4>
                 
             </SubjectContainer>
+
+
             <SubjectContainer>
                 <InfoContainer>
+                    <InfoIcon/><p>중요도를 체크해 주세요. 체크한 중요도는 일정 중요도<br></br>반영에 도움이 됩니다! 중요한 일정을 체크해주세요.</p>
                 </InfoContainer>
                 <SubjectContainer3>
                     <CheckIcon/>
@@ -164,22 +179,25 @@ export default function Info(){
                     <SubjectContainerWrite></SubjectContainerWrite>
                 </SubjectContainer3>
                 <SubjectContainer4>
+                    <PlusIcon/>
                 </SubjectContainer4>
             </SubjectContainer>
+
+
             <SubjectContainer>
                 <InfoContainer>
-                    
+                    <InfoIcon/><p>추가적인 일정을 입력해주세요. 앞서 입력한 정보를 제외<br></br>하고 입력해주세요.</p>
                 </InfoContainer>
                 <SubjectContainer3>
                     <CheckIcon/>
-                    <SubjectContainerWrite></SubjectContainerWrite>
+                    <TodoInput></TodoInput>
                 </SubjectContainer3>
                  <SubjectContainer3>
                     <CheckIcon/>
-                    <SubjectContainerWrite></SubjectContainerWrite>
+                    <TodoInput></TodoInput>
                 </SubjectContainer3>
                 <SubjectContainer4>
-
+                    <PlusIcon/>
                 </SubjectContainer4>
             </SubjectContainer>
             <EnterInfoContainer>
