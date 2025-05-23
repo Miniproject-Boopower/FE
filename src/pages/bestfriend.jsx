@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { WiDirectionLeft } from "react-icons/wi";
+import { FaRegSquareCheck } from "react-icons/fa6";
+
 
 const PageContainer = styled.div`
     position: relative;
@@ -9,8 +11,6 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden;
-    border: 1px solid black;
 `;
 
 const HeaderContainer = styled.div`
@@ -130,17 +130,6 @@ const UserMinor = styled.div`
     }
 `;
 
-/**const ContentContainer = styled.div`
-    width: 25.0625rem;
-    height: 43.75rem;
-    margin-top: 0.8125rem;
-    border-radius: 1.875rem 1.875rem 0rem 0rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.50);
-    padding-top: 1.56rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;*/
 
 const TodayContainer = styled.div`
     width: 25.0625rem;
@@ -148,10 +137,11 @@ const TodayContainer = styled.div`
     border-radius: 1.875rem 1.875rem 0rem 0rem;
     border-top: 1px solid rgba(0, 0, 0, 0.50);
     padding-top:1.56rem;
-    padding-bottom: 0.62rem;
+    //padding-bottom: 0.62rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 `;
 
 const TodayNavigator = styled.div`
@@ -189,13 +179,94 @@ const TodayCard = styled.div`
     background: #FFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     padding: 1.19rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute
 `;
+
+const TodayTaskCard = styled(TodayCard)`
+    z-index: 1;
+    right: 0.94rem;
+    top: 3rem
+`;
+
+const TodayTimetableCard = styled(TodayCard)`
+    z-index: 0;
+    top: 3.94rem;
+
+`
 
 const TaskContent = styled.div`
     display: flex;
     flex-direction: row;
-    width: 17.87675rem;
+    width: 18.12675rem;
+    height: 2.0625rem;
+    border-bottom: 1px solid #E3DEDE;
+    align-items: center;
+    padding-left: 0.26rem;
+    box-sizing: border-box;
+
 `;
+
+const CheckButton = styled(FaRegSquareCheck)`
+    width: 0.72919rem;
+    height: 0.72919rem;
+`;
+
+const TaskText = styled.div`
+    width: 13.6875rem;
+    height: 0.9375rem;
+    display: flex;
+    align-items: center;
+    padding-left: 0.38rem;
+    color: #000;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+`
+
+const ImportantIcon = styled.div`
+    width: 2.63756rem;
+    height: 1.1875rem;
+    background-color: #94E8FD;
+    color: #5E5C5C;
+    border-radius: 1.56rem;
+    font-size: 0.75rem;  
+    font-style: normal;   
+    font-weight: 400;  
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.87rem;
+    margin-top: 0.3rem;
+`;
+
+const FriendCalenderConatainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25.125rem;
+    height: 26.4375rem;
+`;
+
+const FriendCalenderBar = styled.div`
+    width: 25.125rem;
+    height: 2.375rem;
+    color: #94E8FD;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-top:0.62rem;
+
+`
 
 
 export default function BestFriend(){
@@ -237,10 +308,33 @@ export default function BestFriend(){
                                 오늘 시간표
                             </TodayTimetableBar>
                         </TodayNavigator>
-                        <TodayCard>
-
-                        </TodayCard>
+                        <TodayTaskCard>
+                            <TaskContent>
+                                <CheckButton />
+                                <TaskText>
+                                    데이터사이언스 응용: eclass 듣기
+                                </TaskText>
+                                <ImportantIcon>
+                                    중요
+                                </ImportantIcon>
+                            </TaskContent>
+                            <TaskContent>
+                                <CheckButton />
+                                <TaskText>
+                                    데이터사이언스 응용: eclass 듣기
+                                </TaskText>
+                                <ImportantIcon>
+                                    중요
+                                </ImportantIcon>
+                            </TaskContent>
+                        </TodayTaskCard>
+                        <TodayTimetableCard></TodayTimetableCard>
                     </TodayContainer>
+                    <FriendCalenderConatainer>
+                        <FriendCalenderBar>
+                            부력이의 5월
+                        </FriendCalenderBar>
+                    </FriendCalenderConatainer>
                 </MainContainer>
             </PageContainer>
         </div>
