@@ -3,6 +3,26 @@ import { BiSolidLeftArrow } from "react-icons/bi";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FaXmark } from "react-icons/fa6";
 import { FaRegCheckCircle } from "react-icons/fa";
+import { useState } from "react";
+
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4); // 어두운 배경
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; // 페이지 위로 올라오게
+`;
+
+const ModalWrapper = styled.div`
+  position: relative;
+  z-index: 1000; // 실제 모달 내용
+`;
 
 
 const PageContainer = styled.div`
@@ -237,45 +257,65 @@ const AddButton = styled.div`
     line-height: normal;
     `
 
-export default function Addplanmodal (){
-    return (
-            <PageContainer>
-                <HeaderContainer>
-                    <IconContainer>
-                        <ArrowIcon/><DayContainer>5월7일</DayContainer><ArrowIcon2/>
-                    </IconContainer>
-                    <IconContainer2>
-                        <CancelIcon/>
-                    </IconContainer2>
-                </HeaderContainer>
-                
+export default function Addplanmodal({ onClose, selectedDate  }) {
 
-                <ButtonContainer>
-                    <DayButton>일정</DayButton>
-                    <TodoButton>할 일</TodoButton>
-                </ButtonContainer>
+  const [localDate, setLocalDate] = useState(selectedDate);
 
+  const handlePrevDay = () => {
+    const prevDate = new Date(localDate);
+    prevDate.setDate(prevDate.getDate() - 1);
+    setLocalDate(prevDate);
+  };
 
-                <DayInputContainer>
-                    <DayInpute placeholder="일정 이름 입력"/>
-                </DayInputContainer>
+  const handleNextDay = () => {
+    const nextDate = new Date(localDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+    setLocalDate(nextDate);
+  };
 
+  const displayMonth = localDate.getMonth() + 1;
+  const displayDay = localDate.getDate();
 
-                <ImporContainer>
-                    <ImporTextBox>중요도 체크</ImporTextBox>
-                </ImporContainer>
-                <ImporContainer2>
-                    <CheckIcon/>
-                    <ImporTextBox2>체크표시를 눌러 일정이나 할 일의 중요도를 표시해주세요.<br></br>표시한 중요도는 친한 친구에게도 공유됩니다!</ImporTextBox2>
-                </ImporContainer2>
+  return (
+    <Overlay>
+      <ModalWrapper>
+        <PageContainer>
+          <HeaderContainer>
+            <IconContainer>
+                <ArrowIcon onClick={handlePrevDay} style={{ cursor: 'pointer' }} />
+                <DayContainer>{displayMonth}월 {displayDay}일</DayContainer>
+                <ArrowIcon2 onClick={handleNextDay} style={{ cursor: 'pointer' }} />
+            </IconContainer>
+            <IconContainer2>
+              <CancelIcon onClick={onClose} style={{ cursor: 'pointer' }} />
+            </IconContainer2>
+          </HeaderContainer>
 
-                
-                <AddContainer>
-                    <AddButton>추가하기</AddButton>
-                </AddContainer>
-            </PageContainer>
+          <ButtonContainer>
+            <DayButton>일정</DayButton>
+            <TodoButton>할 일</TodoButton>
+          </ButtonContainer>
 
+          <DayInputContainer>
+            <DayInpute placeholder="일정 이름 입력" />
+          </DayInputContainer>
 
-    )
+          <ImporContainer>
+            <ImporTextBox>중요도 체크</ImporTextBox>
+          </ImporContainer>
+          <ImporContainer2>
+            <CheckIcon />
+            <ImporTextBox2>
+              체크표시를 눌러 일정이나 할 일의 중요도를 표시해주세요.<br />
+              표시한 중요도는 친한 친구에게도 공유됩니다!
+            </ImporTextBox2>
+          </ImporContainer2>
+
+          <AddContainer>
+            <AddButton>추가하기</AddButton>
+          </AddContainer>
+        </PageContainer>
+      </ModalWrapper>
+    </Overlay>
+  );
 }
-
