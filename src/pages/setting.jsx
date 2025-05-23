@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const PageContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 200vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,6 +48,8 @@ export default function Setting() {
       <ChooseButton onClick={() => gotoPage("/mypagedepth")}>my2</ChooseButton>
       <ChooseButton onClick={() => gotoPage("/addplanmodal")}>addplanmodal</ChooseButton>
       <ChooseButton onClick={() => gotoPage("/addinfomodal")}>addinfomodal</ChooseButton>
+      <ChooseButton onClick={() => gotoPage("/friendaddmodal")}>friendaddmodal</ChooseButton>
+      <ChooseButton onClick={() => gotoPage("/friendsendmodal")}>friendsendmodal</ChooseButton>
     </PageContainer>
   );
 }

@@ -2,6 +2,8 @@ import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const PageContainer = styled.div`
     width: 25.125rem;
@@ -58,6 +60,7 @@ const DayCalendar = styled(Calendar)`
 
 export default function Calender() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const navigate = useNavigate(); 
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -66,7 +69,9 @@ export default function Calender() {
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    console.log(`선택된 날짜: ${year}년 ${month}월 ${day}일`);
+    navigate('/calenderdepth', {
+      state: { year, month, day }
+    });
   };
 
   return (

@@ -14,6 +14,8 @@ import Setting from "./pages/setting";
 import Mypagedepth from "./pages/mypage2";
 import Addplanmodal from "./pages/Addplanmodal";
 import AddinfoModal from "./pages/Addinfomodal";
+import FriendaddModal from "./pages/Friendaddmodal";
+import FriendsendModal from "./pages/Friendsendmodal";
 
 const RouterComponent = () => {
     return (
@@ -32,6 +34,8 @@ const RouterComponent = () => {
           <Route path="/mypagedepth" element={<Mypagedepth />} />
           <Route path="/addplanmodal" element={<Addplanmodal/>} />
           <Route path="/addinfomodal" element={<AddinfoModal/>} />
+          <Route path="/friendaddmodal" element={<FriendaddModal/>} />
+          <Route path="/friendsendmodal" element={<FriendsendModal/>} />
         </Routes>
     );
   };

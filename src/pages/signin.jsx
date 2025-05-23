@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const PageContainer = styled.div`
   width: 25.125rem;
@@ -101,6 +102,8 @@ export default function Signin() {
   const [name, setName] = useState("")
   const [major, setMajor] = useState("")
 
+  const navigate = useNavigate();
+
   const mockdata = {
             "studentNumber" : id,
             "password" : password,
@@ -119,6 +122,7 @@ export default function Signin() {
         mockdata)
       alert("회원가입 성공!")
       console.log(response.data)
+      navigate("/login");
     } catch (error) {
       console.error("회원가입 오류", error)
       alert("회원가입 실패")

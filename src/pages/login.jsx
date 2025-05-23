@@ -149,6 +149,10 @@ export default function Login() {
     }
   };
 
+  const handleSignin = () => {
+    navigate("/signin");
+  };
+
   return (
     <PageContainer>
       <Box2>
@@ -174,7 +178,7 @@ export default function Login() {
         <SigninContainer onClick={handleLogin}>
           <p>로그인</p>
         </SigninContainer>
-        <SigninContainer2>
+        <SigninContainer2 onClick={handleSignin}>
           <p>회원가입</p>
         </SigninContainer2>
         <WarringText>eclass 아이디로 가입해주세요!</WarringText>
