@@ -3,9 +3,8 @@ import { useState } from "react"
 import { MdPlayArrow } from "react-icons/md";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { MdOutlineCheckBox } from "react-icons/md";
-import { useLocation } from 'react-router-dom';
-
-
+import { useLocation, useNavigate } from 'react-router-dom';
+import Addplanmodal from './Addplanmodal';
 
 
 const PageContainer = styled.div`
@@ -180,15 +179,18 @@ const ImportBox = styled.div`
   align-items: center;
 `
 
+
+
 export default function CalenderDepth() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { year, month, day } = location.state || {};
 
-
   const [selectedDate, setSelectedDate] = useState(new Date(year, month - 1, day));
+  const [checked, setChecked] = useState(false);
+  const [showModal, setShowModal] = useState(false); 
 
   const toggleChecked = () => setChecked(prev => !prev);
-  const [checked, setChecked] = useState(false);
   const memoItems = Array(20).fill(0);
 
   const handlePrevDay = () => {
@@ -203,47 +205,59 @@ export default function CalenderDepth() {
     setSelectedDate(nextDate);
   };
 
-  const currentYear = selectedDate.getFullYear();
+  const handleBack = () => {
+    navigate("/calender")
+  }
+
   const currentMonth = selectedDate.getMonth() + 1;
   const currentDay = selectedDate.getDate();
 
   return (
-    <PageContainer>
-      <HeaderContianer>
-        <LeftArrow onClick={handlePrevDay} />
-        <DayText>{currentMonth}월 {currentDay}일</DayText>
-        <RightArrow onClick={handleNextDay} />
-      </HeaderContianer>
+    <>
+      <PageContainer>
+        <HeaderContianer>
+          <LeftArrow onClick={handlePrevDay} />
+          <DayText>{currentMonth}월 {currentDay}일</DayText>
+          <RightArrow onClick={handleNextDay} />
+        </HeaderContianer>
 
-      <MemoContainer>
-        <MemotopContainer>
-          {memoItems.map((_, index) => (
-            <MemomiddleContainer key={index}>
-              <MemoTip />
-              <MemoCircle />
-            </MemomiddleContainer>
-          ))}
-        </MemotopContainer>
+        <MemoContainer>
+          <MemotopContainer>
+            {memoItems.map((_, index) => (
+              <MemomiddleContainer key={index}>
+                <MemoTip />
+                <MemoCircle />
+              </MemomiddleContainer>
+            ))}
+          </MemotopContainer>
 
-        <MemodownContainer>
-          <WriteContainer>
-            <TextAndIcon>
-              {checked ? (
-                <CheckIcon onClick={toggleChecked} />
-              ) : (
-                <BoxIcon onClick={toggleChecked} />
-              )}
-              <WriteText>데이터사이언스 응용 eclass 강의 듣기</WriteText>
-            </TextAndIcon>
-            <ImportBox>중요</ImportBox>
-          </WriteContainer>
-        </MemodownContainer>
-      </MemoContainer>
+          <MemodownContainer>
+            <WriteContainer>
+              <TextAndIcon>
+                {checked ? (
+                  <CheckIcon onClick={toggleChecked} />
+                ) : (
+                  <BoxIcon onClick={toggleChecked} />
+                )}
+                <WriteText>데이터사이언스 응용 eclass 강의 듣기</WriteText>
+              </TextAndIcon>
+              <ImportBox>중요</ImportBox>
+            </WriteContainer>
+          </MemodownContainer>
+        </MemoContainer>
 
-      <ButtonContainer>
-        <AddButton>일정/할일 추가하기</AddButton>
-        <BackButton>뒤로가기</BackButton>
-      </ButtonContainer>
-    </PageContainer>
-  )
+        <ButtonContainer>
+          <AddButton onClick={() => setShowModal(true)}>일정/할일 추가하기</AddButton>
+          <BackButton onClick={handleBack}>뒤로가기</BackButton>
+        </ButtonContainer>
+      </PageContainer>
+
+      {/* 모달 렌더링 조건부 */}
+      {showModal && <Addplanmodal
+        onClose={() => setShowModal(false)}
+        selectedDate={selectedDate}
+      />
+      }
+    </>
+  );
 }

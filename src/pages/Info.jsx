@@ -3,6 +3,8 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { BiInfoCircle } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import AddinfoModal from "./Addinfomodal";
 
 const PageContainer = styled.div`
     width: 25.125rem;
@@ -36,7 +38,7 @@ const InfoContainer = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 0.37rem;
     color: #8A8A8A;
@@ -141,54 +143,76 @@ const TodoInput = styled.div`
     width: 16.5rem;
     height: 2.625rem;
     flex-shrink: 0;
+    display: flex;
+    padding : 0.3rem 0rem 0.5rem 0.5rem;
+    box-sizing: border-box;
     border-radius: 0.625rem;
     background: #F0F4F8;
     border: none;
+    color: #000;
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 `
-export default function Info(){
+export default function Info({ id }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [schedules, setSchedules] = useState([]); // ⬅️ 일정을 여기에 보관
 
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
+    // 일정 추가 핸들러 (모달에서 호출됨)
+    const handleAddSchedules = (newSchedules) => {
+        setSchedules(newSchedules);
+        closeModal();
+    };
 
-    return(
+    
+
+    
+
+    return (
         <PageContainer>
             <SubjectContainer>
                 <InfoContainer>
-                    <InfoIcon/><p>lms에서 자동으로 과목이 크롤링됩니다. 학교 교과과목이<br></br>아닌 과목을 입력해주세요.</p>
+                    <InfoIcon /><p>lms에서 자동으로 과목이 크롤링됩니다.</p>
                 </InfoContainer>
                 <SubjectContainer3>
-                    <CheckIcon/>
+                    <CheckIcon />
                     <SubjectContainerWrite></SubjectContainerWrite>
                 </SubjectContainer3>
-                 <SubjectContainer3>
-                    <CheckIcon/>
+                <SubjectContainer3>
+                    <CheckIcon />
                     <SubjectContainerWrite></SubjectContainerWrite>
                 </SubjectContainer3>
-                <SubjectContainer4>
-                    <PlusIcon/>
-                </SubjectContainer4>
-                
+                <SubjectContainer4 />
             </SubjectContainer>
             <SubjectContainer>
                 <InfoContainer>
-                    <InfoIcon/><p>추가적인 일정을 입력해주세요. 앞서 입력한 정보를 제외<br></br>하고 입력해주세요.</p>
+                    <InfoIcon />
+                    <p>추가적인 일정을 입력해주세요. 앞서 크롤링 된 정보를 제외<br />하고 입력해주세요.</p>
                 </InfoContainer>
-                <SubjectContainer3>
-                    <CheckIcon/>
-                    <TodoInput></TodoInput>
-                </SubjectContainer3>
-                 <SubjectContainer3>
-                    <CheckIcon/>
-                    <TodoInput></TodoInput>
-                </SubjectContainer3>
+                {schedules.map((schedule, index) => (
+                    <SubjectContainer3 key={index}>
+                        <CheckIcon />
+                        <TodoInput>{schedule.title}</TodoInput>
+                    </SubjectContainer3>
+                ))}
                 <SubjectContainer4>
-                    <PlusIcon/>
+                    <PlusIcon onClick={openModal} style={{ cursor: "pointer" }} />
                 </SubjectContainer4>
             </SubjectContainer>
             <EnterInfoContainer>
-                <EnterInfo>
-                    정보입력
-                </EnterInfo>
+                <EnterInfo>정보입력</EnterInfo>
             </EnterInfoContainer>
+            {isModalOpen && (
+                <AddinfoModal
+                    onClose={closeModal}
+                    onSubmit={handleAddSchedules} 
+                />
+            )}
         </PageContainer>
-    )
+    );
 }

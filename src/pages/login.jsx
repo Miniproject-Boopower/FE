@@ -142,7 +142,7 @@ export default function Login() {
         "password" : password,
       });
       console.log("Login success:", response.data);
-      navigate("/info");
+      navigate("/info", { state: { id: id } });
     } catch (error) {
       console.error("Login failed:", error);
       alert("로그인 실패. 아이디와 비밀번호를 확인하세요.");
