@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { FaRegCheckCircle } from "react-icons/fa";
 import { BiInfoCircle } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const PageContainer = styled.div`
     width: 25.125rem;
@@ -136,7 +137,7 @@ const PlusIcon = styled(FaPlus)`
     fill: #010A12;
 `
 
-const TodoInput = styled.input`
+const TodoInput = styled.div`
     width: 16.5rem;
     height: 2.625rem;
     flex-shrink: 0;
@@ -145,6 +146,9 @@ const TodoInput = styled.input`
     border: none;
 `
 export default function Info(){
+
+
+
     return(
         <PageContainer>
             <SubjectContainer>
@@ -164,26 +168,6 @@ export default function Info(){
                 </SubjectContainer4>
                 
             </SubjectContainer>
-
-
-            <SubjectContainer>
-                <InfoContainer>
-                    <InfoIcon/><p>중요도를 체크해 주세요. 체크한 중요도는 일정 중요도<br></br>반영에 도움이 됩니다! 중요한 일정을 체크해주세요.</p>
-                </InfoContainer>
-                <SubjectContainer3>
-                    <CheckIcon/>
-                    <SubjectContainerWrite></SubjectContainerWrite>
-                </SubjectContainer3>
-                 <SubjectContainer3>
-                    <CheckIcon/>
-                    <SubjectContainerWrite></SubjectContainerWrite>
-                </SubjectContainer3>
-                <SubjectContainer4>
-                    <PlusIcon/>
-                </SubjectContainer4>
-            </SubjectContainer>
-
-
             <SubjectContainer>
                 <InfoContainer>
                     <InfoIcon/><p>추가적인 일정을 입력해주세요. 앞서 입력한 정보를 제외<br></br>하고 입력해주세요.</p>
