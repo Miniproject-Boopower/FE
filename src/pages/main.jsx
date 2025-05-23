@@ -4,6 +4,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaRegCircleCheck } from "react-icons/fa6";
 
+
 const PageContainer = styled.div`
     width: 25.125rem;
     height: 54.625rem;
@@ -295,6 +296,9 @@ const CalenderText = styled.h4`
     margin : 0;
     color: black;
 `
+
+
+
 export default function Main(){
 
     const memos = Array(14).fill(0);
