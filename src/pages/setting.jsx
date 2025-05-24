@@ -50,6 +50,7 @@ export default function Setting() {
       <ChooseButton onClick={() => gotoPage("/addinfomodal")}>addinfomodal</ChooseButton>
       <ChooseButton onClick={() => gotoPage("/friendaddmodal")}>friendaddmodal</ChooseButton>
       <ChooseButton onClick={() => gotoPage("/friendsendmodal")}>friendsendmodal</ChooseButton>
+      <ChooseButton onClick={() => gotoPage("/fixplanmodal")}>fixplanmodal</ChooseButton>
     </PageContainer>
   );
 }
