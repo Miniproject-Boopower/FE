@@ -156,6 +156,24 @@ const TodoInput = styled.div`
     font-weight: 400;
     line-height: normal;
 `
+
+const ScheduleBox = styled.div`
+    display: flex;
+    width: 2.1875rem;
+    height: 2.1875rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    background: #96EAFF;
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+`
 export default function Info({ id }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [schedules, setSchedules] = useState([]); // ⬅️ 일정을 여기에 보관
@@ -196,7 +214,7 @@ export default function Info({ id }) {
                 </InfoContainer>
                 {schedules.map((schedule, index) => (
                     <SubjectContainer3 key={index}>
-                        <CheckIcon />
+                        <ScheduleBox>{schedule.importance}</ScheduleBox>
                         <TodoInput>{schedule.title}</TodoInput>
                     </SubjectContainer3>
                 ))}

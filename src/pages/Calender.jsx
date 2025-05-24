@@ -30,7 +30,7 @@ const DayCalendar = styled(Calendar)`
 
   /* 배경, 보더 등 다른 커스텀 */
   .react-calendar {
-  background: white;
+  background: #F0F4F8;
   border: 1px solid #a0a096;
   font-family: 'Arial', 'Helvetica', sans-serif;
   line-height: 1.125em;
@@ -54,7 +54,7 @@ const DayCalendar = styled(Calendar)`
 }
 
 .react-calendar__tile--now {
-  background: pink;
+  background: #94E8FD;
 }
 `;
 
@@ -73,6 +73,8 @@ export default function Calender() {
       state: { year, month, day }
     });
   };
+
+
 
   return (
     <PageContainer>

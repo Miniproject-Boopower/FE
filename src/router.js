@@ -16,6 +16,7 @@ import Addplanmodal from "./pages/Addplanmodal";
 import AddinfoModal from "./pages/Addinfomodal";
 import FriendaddModal from "./pages/Friendaddmodal";
 import FriendsendModal from "./pages/Friendsendmodal";
+import FixplanModal from "./pages/Fixplanmodal";
 
 const RouterComponent = () => {
     return (
@@ -36,6 +37,7 @@ const RouterComponent = () => {
           <Route path="/addinfomodal" element={<AddinfoModal/>} />
           <Route path="/friendaddmodal" element={<FriendaddModal/>} />
           <Route path="/friendsendmodal" element={<FriendsendModal/>} />
+          <Route path="/fixplanmodal" element={<FixplanModal/>} />
         </Routes>
     );
   };
