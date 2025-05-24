@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { WiDirectionLeft } from "react-icons/wi";
 import { FaRegSquareCheck } from "react-icons/fa6";
@@ -11,6 +11,7 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 `;
 
 const HeaderContainer = styled.div`
@@ -153,21 +154,21 @@ const TodayNavigator = styled.div`
 `;
 
 const TodayTaskBar = styled.div`
-    color: #94E8FD;
     font-size: 1rem;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    border-bottom:  1px solid #94E8FD;
+    border-bottom: 1px solid ${props => props.active ? '#A9ABAB' : '#94E8FD'};
+    color: ${props => props.active ? '#A9ABAB' : '#94E8FD'};
 `;
 
 const TodayTimetableBar = styled.div`
-    color: #A9ABAB;
+    color: ${props => props.active ? '#94E8FD' : '#A9ABAB'};
     font-size: 1rem;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    border-bottom: #A9ABAB;
+    border-bottom: 1px solid ${props => props.active ? '#94E8FD' : '#A9ABAB'};
 `;
 
 const TodayCard = styled.div`
@@ -182,20 +183,22 @@ const TodayCard = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute
+    position: absolute;
 `;
 
 const TodayTaskCard = styled(TodayCard)`
     z-index: 1;
     right: 0.94rem;
-    top: 3rem
+    top: 3rem;
+    transition: left 0.3s ease;
+    
 `;
 
 const TodayTimetableCard = styled(TodayCard)`
     z-index: 0;
     top: 3.94rem;
-
-`
+    left: 2rem;
+`;
 
 const TaskContent = styled.div`
     display: flex;
@@ -206,7 +209,6 @@ const TaskContent = styled.div`
     align-items: center;
     padding-left: 0.26rem;
     box-sizing: border-box;
-
 `;
 
 const CheckButton = styled(FaRegSquareCheck)`
@@ -270,73 +272,85 @@ const FriendCalenderBar = styled.div`
 
 
 export default function BestFriend(){
-    return(
-        <div>
-            <PageContainer>
-                <HeaderContainer>
-                    <BackButton></BackButton>
-                    <Header>
-                        친구 정보
-                    </Header>
-                </HeaderContainer>
-                <MainContainer>
-                    <ProfileContainer>
-                        <ProfileCard>
-                            <ProfileImage>
-                                <p>프로필 이미지 들어갈 예정</p>
-                            </ProfileImage>
-                            <UserName>
-                                김부력
-                            </UserName>
-                            <UserNumber>
-                                <span>학번</span> 20250000
-                            </UserNumber>
-                            <UserMajor>
-                                <span>전공</span> 컴퓨터 공학과
-                            </UserMajor>
-                            <UserMinor>
-                                <span>부전공</span> 정보통신공학과
-                            </UserMinor>
-                        </ProfileCard>
-                    </ProfileContainer>
-                    <TodayContainer>
-                        <TodayNavigator>
-                            <TodayTaskBar>
-                                오늘 할 일
-                            </TodayTaskBar>
-                            <TodayTimetableBar>
-                                오늘 시간표
-                            </TodayTimetableBar>
-                        </TodayNavigator>
-                        <TodayTaskCard>
-                            <TaskContent>
-                                <CheckButton />
-                                <TaskText>
-                                    데이터사이언스 응용: eclass 듣기
-                                </TaskText>
-                                <ImportantIcon>
-                                    중요
-                                </ImportantIcon>
-                            </TaskContent>
-                            <TaskContent>
-                                <CheckButton />
-                                <TaskText>
-                                    데이터사이언스 응용: eclass 듣기
-                                </TaskText>
-                                <ImportantIcon>
-                                    중요
-                                </ImportantIcon>
-                            </TaskContent>
-                        </TodayTaskCard>
-                        <TodayTimetableCard></TodayTimetableCard>
-                    </TodayContainer>
-                    <FriendCalenderConatainer>
-                        <FriendCalenderBar>
-                            부력이의 5월
-                        </FriendCalenderBar>
-                    </FriendCalenderConatainer>
-                </MainContainer>
-            </PageContainer>
-        </div>
-    )
+
+    const [dragX, setDragX] = useState(0);
+    const [dragStartX, setDragStartX] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [flipCount, setFlipCount] = useState(0);
+
+    const pxToRem = (px) => px / 16;
+
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setDragStartX(e.clientX);
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - dragStartX;
+        if (deltaX < 0) setDragX(deltaX); // only allow left drag
+    };
+
+    const handleMouseUp = () => {
+        if (dragX < -100) {
+            setFlipCount((prev) => prev + 1);
+        }
+        setIsDragging(false);
+        setDragX(0);
+    };
+
+    const handleMouseLeave = () => {
+        if (!isDragging) return;
+        if (dragX < -100) {
+            setFlipCount((prev) => prev + 1);
+        }
+        setIsDragging(false);
+        setDragX(0);
+    };
+
+    const isFlipped = flipCount % 2 === 1;
+
+    return (
+        <PageContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseLeave} onMouseDown={handleMouseDown}>
+            <HeaderContainer>
+                <BackButton />
+                <Header>친구 정보</Header>
+            </HeaderContainer>
+            <MainContainer>
+                <ProfileContainer>
+                    <ProfileCard>
+                        <ProfileImage><p>프로필 이미지 들어갈 예정</p></ProfileImage>
+                        <UserName>김부력</UserName>
+                        <UserNumber><span>학번</span> 20250000</UserNumber>
+                        <UserMajor><span>전공</span> 컴퓨터 공학과</UserMajor>
+                        <UserMinor><span>부전공</span> 정보통신공학과</UserMinor>
+                    </ProfileCard>
+                </ProfileContainer>
+                <TodayContainer>
+                    <TodayNavigator>
+                        <TodayTaskBar active={isFlipped}>오늘 할 일</TodayTaskBar>
+                        <TodayTimetableBar active={isFlipped}>오늘 시간표</TodayTimetableBar>
+                    </TodayNavigator>
+                    <TodayTimetableCard style={{ zIndex: isFlipped ? 1 : 0 }} />
+                    <TodayTaskCard
+                        style={{ zIndex: isFlipped ? 0 : 1, transform: `translateX(${pxToRem(dragX)}rem)` }}
+                    >
+                        <TaskContent>
+                            <CheckButton />
+                            <TaskText>데이터사이언스 응용: eclass 듣기</TaskText>
+                            <ImportantIcon>중요</ImportantIcon>
+                        </TaskContent>
+                        <TaskContent>
+                            <CheckButton />
+                            <TaskText>데이터사이언스 응용: eclass 듣기</TaskText>
+                            <ImportantIcon>중요</ImportantIcon>
+                        </TaskContent>
+                    </TodayTaskCard>
+                </TodayContainer>
+                <FriendCalenderConatainer>
+                    <FriendCalenderBar>부력이의 5월</FriendCalenderBar>
+                </FriendCalenderConatainer>
+            </MainContainer>
+        </PageContainer>
+    );
 }
