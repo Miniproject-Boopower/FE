@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 import { WiDirectionLeft } from "react-icons/wi";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { LuPencil } from "react-icons/lu";
 import { LiaTrashAlt } from "react-icons/lia";
 import { AiOutlineUserSwitch } from "react-icons/ai";
 import { IoMdShare } from "react-icons/io";
+import FixplanModal from "./Fixplanmodal";
+import { useState } from "react"; 
 
 const PageContainer = styled.div`
     width: 25.125rem;
@@ -32,6 +35,7 @@ const BackButton = styled(WiDirectionLeft)`
     width: 2rem;
     height: 2rem;
     margin-left: 1.07rem;
+    cursor: pointer;
 `;
 
 const Header = styled.div`
@@ -128,11 +132,13 @@ const ButtonContainer1 = styled.div`
 const EditButton = styled(LuPencil)`
   width: 0.9rem;
   height: 0.9rem;
+  cursor: pointer;
 `;
 
 const DeleteButton = styled(LiaTrashAlt)`
   width: 0.9375rem;
   height: 0.9375rem;
+  cursor: pointer;
 `
 
 const ListContainer = styled.div`
@@ -223,11 +229,42 @@ const ShareButton = styled(IoMdShare)`
 `
 
 export default function Mypagedepth(){
+  //모달창 띄우기 위한 상태관리
+  const [ModalOpen, setModalOpen] = useState(false);
+  const OnClickEditButton = () => {
+    setModalOpen(true); // 모달 열기
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const navigate = useNavigate();
+
+    const OnClickBackButton = () => {
+        console.log('뒤로가기 버튼 클릭함');
+        navigate(`/main`);
+      };
+
+
+  const importantActivities = [
+    {
+      title: "멋쟁이사자처럼 13기",
+      tag: "중요활동"
+    },
+    {
+      title: "멋쟁이사자처럼 13기",
+      tag: "중요활동"
+    }
+  ];
+      
+
+  
+    
   return(
       <div>
         <PageContainer>
           <HeaderContainer>
-            <BackButton />
+            <BackButton onClick={OnClickBackButton}/>
             <Header>
               활동 목록
             </Header>
@@ -237,7 +274,20 @@ export default function Mypagedepth(){
               <ImportantHeader>
                 중요 활동 목록
               </ImportantHeader>
-              <ImportantListContent>
+              { importantActivities.map((activity,index) => (
+                <ImportantListContent key={index}>
+                <CheckButton />
+                <ImportantList1>
+                  <ImportantList>{activity.title}</ImportantList>
+                  <Important>{activity.tag}</Important>
+                </ImportantList1>
+                <ButtonContainer1>
+                  <EditButton onClick={OnClickEditButton} />
+                  <DeleteButton />
+                </ButtonContainer1>
+              </ImportantListContent>
+            ))}
+              {/*<ImportantListContent>
                 <CheckButton />
                 <ImportantList1>
                   <ImportantList>
@@ -248,9 +298,9 @@ export default function Mypagedepth(){
                   </Important>
                 </ImportantList1>
                 <ButtonContainer1>
-                  <EditButton />
+                  <EditButton onClick={OnClickEditButton}/>
                   <DeleteButton />
-                </ButtonContainer1>
+                </ButtonContainer1> 
               </ImportantListContent>
               <ImportantListContent>
                 <CheckButton />
@@ -263,10 +313,10 @@ export default function Mypagedepth(){
                   </Important>
                 </ImportantList1>
                 <ButtonContainer1>
-                  <EditButton />
+                  <EditButton onClick={OnClickEditButton}/>
                   <DeleteButton />
                 </ButtonContainer1>
-              </ImportantListContent>
+              </ImportantListContent> */}
             </ImportantListCard>
           </ImportantListContainer>
           <ListContainer>
@@ -285,7 +335,7 @@ export default function Mypagedepth(){
                   </NoImportant>
                 </List1>
                 <ButtonContainer2>
-                  <EditButton />
+                  <EditButton onClick={OnClickEditButton} />
                   <ShareButton />
                   <DeleteButton />
                 </ButtonContainer2>
@@ -301,7 +351,7 @@ export default function Mypagedepth(){
                   </NoImportant>
                 </List1>
                 <ButtonContainer2>
-                  <EditButton />
+                  <EditButton onClick={OnClickEditButton}/>
                   <ShareButton />
                   <DeleteButton />
                 </ButtonContainer2>
@@ -309,6 +359,20 @@ export default function Mypagedepth(){
             </ListCard>
           </ListContainer>
         </PageContainer>
+        {ModalOpen && (
+  <div style={{
+    position: 'fixed',
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 999
+  }}>
+    <FixplanModal onClose={closeModal} />
+  </div>
+)}
+
       </div>
   )
 }

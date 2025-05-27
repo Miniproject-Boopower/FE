@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 import { WiDirectionLeft } from "react-icons/wi";
 import { FaRegSquareCheck } from "react-icons/fa6";
 
@@ -40,6 +41,7 @@ const BackButton = styled(WiDirectionLeft)`
     height: 2rem;
     position: absolute; /* 절대 위치로 설정 */
     left: 0.5rem; /* 원하는 위치로 이동 */
+    cursor: pointer; // 요게 중요!
   
 `;
 
@@ -310,10 +312,17 @@ export default function BestFriend(){
 
     const isFlipped = flipCount % 2 === 1;
 
+    const navigate = useNavigate();
+
+    const onClickBackButton = () => {
+        console.log('뒤로가기 버튼 클릭함');
+        navigate(`/main`);
+      };
+
     return (
         <PageContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseLeave} onMouseDown={handleMouseDown}>
             <HeaderContainer>
-                <BackButton />
+                <BackButton onClick={onClickBackButton} />
                 <Header>친구 정보</Header>
             </HeaderContainer>
             <MainContainer>
