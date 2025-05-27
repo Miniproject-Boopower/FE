@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ReactComponent as BackgroundOwl } from "../svg/backgroundowl.svg";
+import { useNavigate } from "react-router-dom";
 
 const PageContainer = styled.div`
     position: relative;
@@ -158,6 +159,13 @@ const StyledBackgroundOwl = styled(BackgroundOwl)`
 
 
 export default function MyPage(){
+
+    const navigate = useNavigate();
+
+    const goTologin = () => {
+        navigate("/login")
+    }
+
     return(
         <div>
             <PageContainer>
@@ -203,7 +211,7 @@ export default function MyPage(){
                             1학기 활동목록을 관리하세요!
                         </FixDescription>
                     </FixContentContainer>
-                    <LogoutButton>로그아웃</LogoutButton>
+                    <LogoutButton onClick={goTologin}>로그아웃</LogoutButton>
                 </ContentContainer>
                 <StyledBackgroundOwl/>
             </PageContainer>
