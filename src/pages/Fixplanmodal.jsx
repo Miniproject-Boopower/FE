@@ -14,7 +14,6 @@ const PageContainer = styled.div`
     align-items: center;
     gap: 2.75rem;
     overflow: hidden;
-    border: 1px solid black;
 `;
 
 const ModalHeader = styled.div`

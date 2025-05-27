@@ -78,7 +78,7 @@ const ImportantHeader = styled.h1`
 `;
 
 const ImportantListContent = styled.div`
-  width: 19.375rem;
+  width: 20.5rem;
   height: 1.875rem;
   //border: 1px solid black;
   margin: 0 auto; 
