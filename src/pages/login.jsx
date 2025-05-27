@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import axios from "axios"; // axios import 추가
+import api from "../axios";
 import { useNavigate } from "react-router-dom";
 const PageContainer = styled.div`
   width: 25.125rem;
@@ -134,16 +134,20 @@ export default function Login() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("https://mini1team.lion.it.kr/api/v1/user/login", {
+      const response = await api.post("/api/v1/user/login", {
         "studentNumber" :id ,
         "password" : password,
       });
       console.log("Login success:", response.data);
-      navigate("/info", { state: { id: id } });
+      localStorage.setItem("studentId", id);
+      
+      navigate("/info");
     } catch (error) {
+      
       console.error("Login failed:", error);
       alert("로그인 실패. 아이디와 비밀번호를 확인하세요.");
     }

@@ -1,8 +1,10 @@
 import styled from "styled-components"
-import { useState } from "react"
+import { useState , useEffect} from "react"
 import { IoIosArrowForward } from "react-icons/io";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaRegCircleCheck } from "react-icons/fa6";
+import axios from "axios"
+import api from "../axios";
 
 
 const PageContainer = styled.div`
@@ -299,10 +301,40 @@ const CalenderText = styled.h4`
 
 
 
-export default function Main(){
+export default function Main({id}){
 
     const memos = Array(14).fill(0);
     const days = ['일', '월', '화', '수', '목', '금', '토'];
+    const [data, setData] = useState("");
+    const [assignmentData, setAssignmentData] = useState(null);
+    const [ddaydata, setDdayData] = useState(null);
+    const Stnum = localStorage.getItem("studentId");
+
+    useEffect(() => {
+    const fetchData = async () => {
+        try {
+        const assignmentRes = await api.get("/api/v1/user/main/today/assignment",  {params: {
+            "studentNumber" : Stnum
+        }});
+        setAssignmentData(assignmentRes.data);
+        console.log("Assignment Data:", assignmentRes.data);
+
+        const scheduleRes = await api.get("/api/v1/user/main/d-day",{params: {
+            "studentNumber" : Stnum
+        }});
+        setDdayData(scheduleRes.data);
+        console.log("Schedule Data:", scheduleRes.data);
+
+        } catch (error) {
+        console.log(Stnum);
+        
+        console.error("데이터 가져오기 실패:", error);
+        }
+    };
+
+    fetchData();
+    }, []);
+
 
     return(
         <PageContainer>

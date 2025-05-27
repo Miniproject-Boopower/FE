@@ -176,7 +176,9 @@ const ScheduleBox = styled.div`
 `
 export default function Info({ id }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [schedules, setSchedules] = useState([]); // ⬅️ 일정을 여기에 보관
+    const [schedules, setSchedules] = useState([]); 
+    const navigate = useNavigate();
+    const Stnum = localStorage.getItem("studentId");
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -187,7 +189,10 @@ export default function Info({ id }) {
         closeModal();
     };
 
-    
+    const gotoMain = () => {
+        console.log(id);
+        navigate("/main")
+    }
 
     
 
@@ -223,7 +228,7 @@ export default function Info({ id }) {
                 </SubjectContainer4>
             </SubjectContainer>
             <EnterInfoContainer>
-                <EnterInfo>정보입력</EnterInfo>
+                <EnterInfo onClick={gotoMain}>정보입력</EnterInfo>
             </EnterInfoContainer>
             {isModalOpen && (
                 <AddinfoModal
