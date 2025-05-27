@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as BackgroundOwl } from "../svg/backgroundowl.svg";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import api from "../axios";
 
 const PageContainer = styled.div`
     position: relative;
@@ -139,14 +140,6 @@ const LogoutButton = styled.div`
     //margin-bottom: 50px;
 `;
 
-/**
- * const BackgroundContainer = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-`; */
-
 const StyledBackgroundOwl = styled(BackgroundOwl)`
     position: absolute;
     width: 25.11513rem;
@@ -160,12 +153,32 @@ const StyledBackgroundOwl = styled(BackgroundOwl)`
 
 export default function MyPage(){
 
-    const navigate = useNavigate();
+    const studentNumber = "202302573";
 
-    const goTologin = () => {
-        navigate("/login")
+    const MockData = {
+        name: "김부력",
+        studentNumber: "20251234",
+        major: "컴퓨터공학과",
+        minor: "정보통신공학과"
     }
+    const [userInfo, setUserInfo] = useState(null);
 
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+          try {
+            const response = await api.get("/api/friends/best", {
+              params: { studentNumber } 
+            });
+            setUserInfo(response.data); // 받아온 데이터 저장
+            console.log(response.data);
+          } catch (error) {
+            console.error("사용자 정보 불러오기 실패", error);
+          }
+        };
+    
+        fetchUserInfo(); 
+      }, []);
+ 
     return(
         <div>
             <PageContainer>
@@ -174,16 +187,16 @@ export default function MyPage(){
                         <p>프로필 이미지 들어갈 예정</p>
                     </ProfileImage>
                     <UserName>
-                        김부력
+                        {userInfo?.name}
                     </UserName>
                     <UserNumber>
-                        <span>학번</span> 20250000
+                        <span>학번</span> {userInfo?.studentNumber}
                     </UserNumber>
                     <UserMajor>
-                        <span>전공</span> 컴퓨터 공학과
+                        <span>전공</span> {userInfo?.major}
                     </UserMajor>
                     <UserMinor>
-                        <span>부전공</span> 정보통신공학과
+                        <span>부전공</span> {userInfo?.minor}
                     </UserMinor>
                 </InfoContainer>
                 <ContentContainer>
