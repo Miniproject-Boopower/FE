@@ -306,23 +306,23 @@ export default function Main({id}){
     const memos = Array(14).fill(0);
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const [data, setData] = useState("");
-    const [assignmentData, setAssignmentData] = useState(null);
-    const [ddaydata, setDdayData] = useState(null);
+    const [assignmentData, setAssignmentData] = useState([]);
+    const [ddaydata, setDdayData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const Stnum = localStorage.getItem("studentId");
-
-    useEffect(() => {
+ useEffect(() => {
     const fetchData = async () => {
         try {
         const assignmentRes = await api.get("/api/v1/user/main/today/assignment",  {params: {
             "studentNumber" : Stnum
         }});
-        setAssignmentData(assignmentRes.data);
+        setAssignmentData(assignmentRes.data.data);
         console.log("Assignment Data:", assignmentRes.data);
 
         const scheduleRes = await api.get("/api/v1/user/main/d-day",{params: {
             "studentNumber" : Stnum
         }});
-        setDdayData(scheduleRes.data);
+        setDdayData(scheduleRes.data.data);
         console.log("Schedule Data:", scheduleRes.data);
 
         } catch (error) {
@@ -330,10 +330,14 @@ export default function Main({id}){
         
         console.error("데이터 가져오기 실패:", error);
         }
+    finally {
+            setLoading(false); // 요청이 끝난 후 loading false로 설정
+        }
     };
 
     fetchData();
-    }, []);
+}, []);
+
 
 
     return(
@@ -357,14 +361,21 @@ export default function Main({id}){
                     <CircleImg/>
                 </MydownContainer>
             </FriendContainer>
+            {loading ? (
+                <p>로딩 중...</p>
+            ) : (
             <DayContainer>
-                <Dday>D-Day</Dday>
-                <DdayContainer>
-                    <InfoIcon/>
-                    <DdayText>D-13</DdayText>
-                    <DdaymiddleText>와이어프레임 완성</DdaymiddleText>
-                </DdayContainer>
-            </DayContainer>
+                        <Dday>D-Day</Dday>
+                    {Array.isArray(ddaydata) && ddaydata.map((item, index) => (
+                        <DdayContainer key={index}>
+                            <InfoIcon />
+                            <DdayText>{item.leftDay}</DdayText>
+                            <DdaymiddleText>{item.assignmentName}</DdaymiddleText>
+                        </DdayContainer>
+                  
+                ))}
+              </DayContainer>
+            )}
                 <TodoContainer>
                     <MemoContainer>
                         {memos.map((_, index) => (

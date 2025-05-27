@@ -3,13 +3,14 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { BiInfoCircle } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState , useEffect} from "react";
+import api from "../axios";
 import AddinfoModal from "./Addinfomodal";
 
 const PageContainer = styled.div`
     width: 25.125rem;
     height: 54.625rem;
-    flex-direction: Column;
+    flex-direction: column;
     display: flex;
     background-color: white;
     padding : 0 2.5rem;
@@ -19,7 +20,7 @@ const PageContainer = styled.div`
     `
 const SubjectContainer = styled.div`
     width: 20.125rem;
-    height: 11.75rem;
+    min-height: 11.75rem; 
     flex-shrink: 0;
     background-color: white;
     padding: 0rem;
@@ -28,6 +29,11 @@ const SubjectContainer = styled.div`
     flex-direction: Column;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
     `
 const InfoContainer = styled.div`
     width: 20.125rem;
@@ -59,13 +65,25 @@ const SubjectContainer3 = styled.div`
     justify-content: center;
     align-items: center;
     gap: 0.63rem;
+    
     `
 const SubjectContainerWrite = styled.div`
     width: 16.5rem;
     height: 2.625rem;
     flex-shrink: 0;
     border-radius: 0.625rem;
+    display : flex;
+    align-items: center;
     background: #F0F4F8;
+    color: #000;
+    font-family: Inter;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     `
 const SubjectContainer4 = styled.div`
     width: 20.125rem;
@@ -177,8 +195,10 @@ const ScheduleBox = styled.div`
 export default function Info({ id }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [schedules, setSchedules] = useState([]); 
+    const [data , setData] = useState([]);
     const navigate = useNavigate();
     const Stnum = localStorage.getItem("studentId");
+    const [loading, setLoading] = useState(true);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -194,23 +214,43 @@ export default function Info({ id }) {
         navigate("/main")
     }
 
+        useEffect(() => {
+        const timer = setTimeout(async () => {
+            try {
+            const course = await api.get("/api/v1/user/assignment", {
+                params: { studentNumber: Stnum }
+            });
+            console.log(course.data.data);
+            setData(course.data.data);
+            setLoading(false);
+            } catch (error) {
+            console.error("데이터 가져오기 실패:", error);
+            setLoading(false);
+            }
+        }, 1000);
+
+        return () => clearTimeout(timer);
+        }, []);
+
+
     
 
     return (
         <PageContainer>
             <SubjectContainer>
                 <InfoContainer>
-                    <InfoIcon /><p>lms에서 자동으로 과목이 크롤링됩니다.</p>
+                    <InfoIcon /><p>lms에서 자동으로 과목이 크롤링됩니다.  </p>
                 </InfoContainer>
-                <SubjectContainer3>
-                    <CheckIcon />
-                    <SubjectContainerWrite></SubjectContainerWrite>
-                </SubjectContainer3>
-                <SubjectContainer3>
-                    <CheckIcon />
-                    <SubjectContainerWrite></SubjectContainerWrite>
-                </SubjectContainer3>
-                <SubjectContainer4 />
+                  {loading ? (
+                    <p>로딩 중...</p>
+                ) : (
+                    Array.isArray(data) && data.map((course, index) => (
+                    <SubjectContainer3 key={index}>
+                        <CheckIcon />
+                        <SubjectContainerWrite>{course.assignmentName}</SubjectContainerWrite>
+                    </SubjectContainer3>
+                    ))
+                )}
             </SubjectContainer>
             <SubjectContainer>
                 <InfoContainer>
