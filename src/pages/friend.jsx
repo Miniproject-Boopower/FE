@@ -150,7 +150,7 @@ const FriendBar = styled.div`
     padding: 0.81rem 1.12rem 0.75rem 1.19rem;
     border-radius: 0.44rem;
     display: flex;
-    aligh-items: center;
+    align-items: center;
     justify-content: space-around;
     flex-direction: row;
     background-color: #F0F4F8;
@@ -199,7 +199,7 @@ const TrashButton = styled.button`
     height: 1.5rem;
     color: Black;
     font-size: 1.25rem;
-    aligh-items: center;
+    align-items: center;
     justify-content: center;
     box-sizing: border-box;
     border: none;
@@ -211,7 +211,7 @@ const HeartButton = styled.button`
     height: 1.5rem;
     color: #94E8FD;
     font-size: 0.9375rem;
-    aligh-items: center;
+    align-items :center;
     justify-content: center;
     box-sizing: border-box;
     border: none;
@@ -220,7 +220,6 @@ const HeartButton = styled.button`
 
 export default function Friend(){
 
-    const[data, setdata] = useState("")
 
     return(
 

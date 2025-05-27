@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { useState } from "react"
-import axios from "axios"
+import api from "../axios"
 import { useNavigate } from "react-router-dom"
 
 const PageContainer = styled.div`
@@ -118,7 +118,7 @@ export default function Signin() {
     }
 
     try {
-      const response = await axios.post("https://mini1team.lion.it.kr/api/v1/user/sign-up", 
+      const response = await api.post("/api/v1/user/sign-up", 
         mockdata)
       alert("회원가입 성공!")
       console.log(response.data)
