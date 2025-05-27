@@ -4,6 +4,8 @@ import { BiSolidRightArrow } from "react-icons/bi";
 import { FaXmark } from "react-icons/fa6";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { useState } from "react";
+import api from "../axios";
+import { useNavigate } from "react-router-dom";
 
 
 const Overlay = styled.div`
@@ -260,6 +262,9 @@ const AddButton = styled.div`
 export default function Addplanmodal({ onClose, selectedDate  }) {
 
   const [localDate, setLocalDate] = useState(selectedDate);
+  const [data , setData] = useState("");
+  const Stnum = localStorage.getItem("studentId");
+  const navigate = useNavigate();
 
   const handlePrevDay = () => {
     const prevDate = new Date(localDate);
@@ -275,6 +280,25 @@ export default function Addplanmodal({ onClose, selectedDate  }) {
 
   const displayMonth = localDate.getMonth() + 1;
   const displayDay = localDate.getDate();
+
+
+    const handleAdd = async () => {
+      try {
+        const response = await api.post("/api/v1/user/createSchedule", {
+          "name" : data ,
+          "scheduleEnums" : "SCHEDULE",
+          "studentNumber" : Stnum,
+          "date": "2025-05-27T15:01:46.118Z"
+        });
+        console.log("success:", response.data);
+        
+        navigate("/calenderdepth");
+      } catch (error) {
+        
+        console.error("Login failed:", error);
+        alert("오류가 났어");
+      }
+    };
 
   return (
     <Overlay>
@@ -297,7 +321,8 @@ export default function Addplanmodal({ onClose, selectedDate  }) {
           </ButtonContainer>
 
           <DayInputContainer>
-            <DayInpute placeholder="일정 이름 입력" />
+            <DayInpute placeholder="일정 이름 입력" value={data}
+            onChange={(e) => setData(e.target.value)} />
           </DayInputContainer>
 
           <ImporContainer>
@@ -312,7 +337,7 @@ export default function Addplanmodal({ onClose, selectedDate  }) {
           </ImporContainer2>
 
           <AddContainer>
-            <AddButton>추가하기</AddButton>
+            <AddButton onClick={handleAdd}>추가하기</AddButton>
           </AddContainer>
         </PageContainer>
       </ModalWrapper>

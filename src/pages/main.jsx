@@ -3,7 +3,7 @@ import { useState , useEffect} from "react"
 import { IoIosArrowForward } from "react-icons/io";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaRegCircleCheck } from "react-icons/fa6";
-import axios from "axios"
+import { useNavigate } from "react-router-dom";
 import api from "../axios";
 
 
@@ -308,8 +308,12 @@ export default function Main({id}){
     const [data, setData] = useState("");
     const [assignmentData, setAssignmentData] = useState([]);
     const [ddaydata, setDdayData] = useState([]);
+    const [scheduledata, setScheduledata] = useState([]);
     const [loading, setLoading] = useState(true);
     const Stnum = localStorage.getItem("studentId");
+    const navigate = useNavigate();
+
+
  useEffect(() => {
     const fetchData = async () => {
         try {
@@ -325,6 +329,12 @@ export default function Main({id}){
         setDdayData(scheduleRes.data.data);
         console.log("Schedule Data:", scheduleRes.data);
 
+        const scheduleData = await api.get("/api/v1/user/main/today/schedule",{params: {
+            "studentNumber" : Stnum
+        }});
+        setScheduledata(scheduleData.data.data);
+        console.log("Schedule Data:", scheduleData.data);
+
         } catch (error) {
         console.log(Stnum);
         
@@ -338,7 +348,9 @@ export default function Main({id}){
     fetchData();
 }, []);
 
-
+    const gotoMypage = () => {
+        navigate("/mypage")
+    }
 
     return(
         <PageContainer>
@@ -353,7 +365,7 @@ export default function Main({id}){
                 <MyContainer>
                     <MyImg/>
                     <MyTitle>김민석</MyTitle>
-                    <Arrow/>
+                    <Arrow onClick={gotoMypage}/>
                 </MyContainer>
                 <MydownContainer>
                     <CircleImg/>
@@ -385,13 +397,19 @@ export default function Main({id}){
                         </MemoMiddleContainer>
                         ))}
                     </MemoContainer>
+                    {loading ? (
+                        <p>로딩 중...</p>
+                    ) : (
                     <MemodownContainer>
-                        <Dday>오늘 할 일</Dday>
-                        <TodoTextContainer>
-                            <CheckIcon/>
-                            <CheckText>데이터사이언스 응용 : eclass강의 듣기</CheckText>
+                        {Array.isArray(scheduledata) && scheduledata.map((item, index) => (
+                        <TodoTextContainer key={index}>
+                            <CheckIcon />
+                            <CheckText>{item.name}</CheckText>
                         </TodoTextContainer>
+                  
+                ))}
                     </MemodownContainer>
+                    )}
                 </TodoContainer>
             <CalenderContainer>
                 <CaltopContainer/>
