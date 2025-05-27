@@ -5,7 +5,8 @@ import { MdOutlinePersonAddAlt } from "react-icons/md";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { BiTrash } from "react-icons/bi";
-
+import api from "../axios";
+import { useEffect } from "react";
 
 //리액트 아이콘
 const Arrow = styled(FaArrowLeft)`
@@ -209,17 +210,52 @@ const TrashButton = styled.button`
 const HeartButton = styled.button`
     width: 2rem;
     height: 1.5rem;
-    color: #94E8FD;
+    color:  ${(props) => (props.$active ? "#94E8FD" : "#A9ABAB")}; ;
     font-size: 0.9375rem;
     align-items :center;
     justify-content: center;
     box-sizing: border-box;
     border: none;
     background-color: #F0F4F8;
+    cursor: pointer;
 `;
 
 export default function Friend(){
+    const [isBestFriend, setIsBestFriend] = useState(false); // 기본값은 false
+    const [friendList, setFriendList] = useState([]);
 
+    const Stnum = localStorage.getItem("studentId");
+    useEffect(() => {
+        const fetchFriends = async () => {
+            try {
+                const res = await api.post("/api/friends/list", {
+                    studentNumber: Stnum,
+                  });
+                setFriendList(res.data);; // 받아온 친구 목록 저장
+            } catch (err) {
+                console.error("친구 목록 불러오기 실패", err);
+            }
+        };
+
+        fetchFriends();
+    }, [Stnum]);
+
+    const handleHeartClick = async () => {
+        const endpoint = isBestFriend ? "/api/friends/unbest" : "/api/friends/best";
+    
+        try {
+            await api.post(endpoint, {
+                studentNumber: Stnum,
+                friendStudentNumber: "20231234", // 이 부분은 실제 친구 번호로 바꿔야 함
+                bestFriend: true,
+            });
+            setIsBestFriend(!isBestFriend); // 색상 토글
+            alert(isBestFriend ? "친한 친구에서 해제됨!" : "친한 친구로 등록됨!");
+        } catch (error) {
+            console.error(error);
+            alert("친한 친구 등록/해제에 실패했습니다.");
+        }
+    };
 
     return(
 
@@ -244,23 +280,28 @@ export default function Friend(){
             </FriendButtonArea>
 
             <FriendListArea>
-                <FriendBar>
-                    <BarImageArea>
-                        <ProfileImg src="https://cdn-icons-png.flaticon.com/512/570/570682.png" alt="프로필이미지"/>
-                    </BarImageArea>
-                    <BarInfoArea>
-                        <div>김민석</div>
-                        <div>멋사 12기</div>
-                    </BarInfoArea>
-                    <BarSelectArea>
-                        <TrashButton>
-                            <BiTrash />
-                        </TrashButton>
-                        <HeartButton>
-                            <FaHeart />
-                        </HeartButton>
-                    </BarSelectArea> 
-                </FriendBar>
+                {friendList.map((friend) => (
+                    <FriendBar key={friend.friendStudentNumber}>
+                        <BarImageArea>
+                            <ProfileImg src="https://cdn-icons-png.flaticon.com/512/570/570682.png" />
+                        </BarImageArea>
+                        <BarInfoArea>
+                            <div>{friend.name}</div>
+                            <div>{friend.generation || "멋사"}</div>
+                        </BarInfoArea>
+                        <BarSelectArea>
+                            <TrashButton>
+                                <BiTrash />
+                            </TrashButton>
+                            <HeartButton
+                                onClick={() => handleHeartClick(friend.friendStudentNumber)}
+                                $active={friend.bestFriend}
+                            >
+                                <FaHeart />
+                            </HeartButton>
+                        </BarSelectArea>
+                    </FriendBar>
+                ))}
             </FriendListArea>
         
         </PageContainer>

@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { FaXmark } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import FriendsendModal from "./Friendsendmodal";
 const PageContainer = styled.div`
     width: 25.125rem;
     height: 17.125rem;
@@ -65,18 +68,37 @@ const SearchBox = styled.div`
     border-radius: 1.875rem;
     border: 1px solid #036;
     background: #FFF;
-    paading: 0.5rem;
+    padding: 0.5rem;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.44rem;
 `
-const SearchInput = styled.input`
-    width: 17.125rem;
-    height: 1.125rem;
-    flex-shrink: 0;
-    boreder: none;
+const SearchInputBox = styled.div`
+    width: 20.3125rem;
+    height: 2.25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`
+const Line = styled.div`
+    width:0.0625rem;
+    height: 2.25rem;
+    background-color:#036;
+`
+const SearchInputName = styled.input`
+    width: 7.75rem;
+    height: 1.7rem;
+    border-right: 1px solid #036;
+    border: none;
+`
+
+const SearchInputNumber = styled.input`
+    width: 7.75rem;
+    height: 1.7rem;
+    border: none;
+    margin-left: 0.5rem;
 `
 const SearchIcon = styled(FaSearch)`
     width: 0.75rem;
@@ -177,7 +199,57 @@ const AddButton = styled.div`
 `
 
 export default function Friendaddmodal(){
+
+    const [name, setName] = useState("");
+    const [studentNumber, setStudentNumber] = useState("");
+    const [friendInfo, setFriendInfo] = useState(null);
+
+    const myStudentNumber = "20231234";
+    //모달창 띄우기 위한 상태관리
+    const [ModalOpen, setModalOpen] = useState(false);
+    const OnClickAddButton = () => {
+      setModalOpen(true); // 모달 열기
+    };
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+
+    
+
+    const handleSearch = () => {
+        if (name && studentNumber) {
+          setFriendInfo({ name, studentNumber });
+        } else {
+          alert("이름과 학번을 모두 입력해주세요.");
+        }
+      };
+
+    
+      const handleAddFriend = async () => {
+        try {
+            
+            const response = await axios.post("https://mini1team.lion.it.kr/api/friends/add", {
+            "studentNumber": myStudentNumber,
+            "friendStudentNumber": studentNumber
+          });
+          console.log("success", response.data);
+          
+          alert("친구가 추가되었습니다!");
+          setFriendInfo(null);
+          setName("");
+          setStudentNumber("");
+        } catch (error) {
+          alert("친구 추가에 실패했습니다.");
+          console.error(error);
+          console.log(myStudentNumber, studentNumber);
+          
+        }
+      };
+
+
+
     return(
+        <>
             <PageContainer>
                 <HeaderContainer>
                     <AddFriendText>친구 추가하기</AddFriendText>
@@ -186,23 +258,44 @@ export default function Friendaddmodal(){
 
                 <SearchContainer>
                     <SearchBox>
-                        <SearchIcon/> <SearchInput/>
+                        <SearchIcon onClick={handleSearch}/> 
+                        <SearchInputBox>
+                            <SearchInputName placeholder="이름" value={name} onChange={(e) => setName(e.target.value)}/> 
+                            <Line />
+                            <SearchInputNumber placeholder="학번" value={studentNumber} onChange={(e) => setStudentNumber(e.target.value)}/>
+                        </SearchInputBox>
                     </SearchBox>
                 </SearchContainer>
 
-                <FriendContainer>
-                    <FriendBox>
-                        <Myimg/>
-                        <FriendBox2>
-                            <FriendName>옥민희</FriendName>
-                            <FriendInfo>멋사 13기</FriendInfo>
-                        </FriendBox2>
-                    </FriendBox>
-                </FriendContainer>
+                {friendInfo && (
+                  <FriendContainer>
+                      <FriendBox>
+                          <Myimg/>
+                          <FriendBox2>
+                              <FriendName>{friendInfo?.name}</FriendName>
+                              <FriendInfo>멋사 13기</FriendInfo>
+                          </FriendBox2>
+                      </FriendBox>
+                  </FriendContainer>
+                )}
 
                 <AddButtonContainer>
-                    <AddButton>추가하기</AddButton>
+                    <AddButton onClick={OnClickAddButton}>추가하기</AddButton>
                 </AddButtonContainer>
             </PageContainer>
+            {ModalOpen && (
+                <div style={{
+                  position: 'fixed',
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  backgroundColor: 'rgba(0,0,0,0.3)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  zIndex: 999
+                }}>
+                  <FriendsendModal onClose={closeModal} friendName={friendInfo?.name} friendStudentNumber={friendInfo?.studentNumber} />
+                </div>
+              )}
+            </>
     )
 }

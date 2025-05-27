@@ -1,14 +1,20 @@
 import styled from "styled-components";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../axios";
+
 
 const PageContainer = styled.div`
 width: 25.125rem;
 height: 17.125rem;
 border-radius: 0.625rem;
 background: #FFF;
-padding: 4.44rem 0.69rem 0.69rem 1.81rem;
+padding: 4.44rem 0 0.69rem 0;
 box-sizing: border-box;
+align-items: center;
 display: flex;
 flex-direction: column;
+justify-content: center;
 gap: 1rem;
 `
 const RequestContainer = styled.div`
@@ -67,17 +73,45 @@ const CancelContainer = styled.div`
     align-items: center;
 `
 
-export default function FriendsendModal(){
+export default function FriendsendModal({ onClose, friendName, friendStudentNumber }){
+
+    const [name, setName] = useState("");
+    const [studentNumber, setStudentNumber] = useState("");
+    const [friendInfo, setFriendInfo] = useState(null);
+
+    const Stnum = localStorage.getItem("studentId");
+    const handleAddFriend = async () => {
+        try {
+            
+            const response = await api.post("/api/friends/add", {
+            "studentNumber": Stnum,
+            "friendStudentNumber": friendStudentNumber
+          });
+          console.log("success", response.data);
+          
+          alert("친구가 추가되었습니다!");
+          setFriendInfo(null);
+          setName("");
+          setStudentNumber("");
+        } catch (error) {
+          alert("친구 추가에 실패했습니다.");
+          console.error(error);
+          console.log(Stnum, friendStudentNumber);
+          
+        }
+      };
+
+
     return(
         <PageContainer>
-            <RequestContainer>옥민희 님에게 친구 요청을 보낼까요?</RequestContainer>
+            <RequestContainer>{friendName}님에게 친구 요청을 보낼까요?</RequestContainer>
             
             
             <RequestContainer2>
-                <RequestButton>친구 요청 보내기</RequestButton>
+                <RequestButton onClick={handleAddFriend}>친구 요청 보내기</RequestButton>
             </RequestContainer2>
             
-            <CancelContainer>취소</CancelContainer>
+            <CancelContainer onClick={onClose}>취소</CancelContainer>
         </PageContainer>
     )
 }

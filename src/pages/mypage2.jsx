@@ -238,8 +238,7 @@ export default function Mypagedepth(){
     setModalOpen(false);
   };
 
-  const navigate = useNavigate();
-
+    const navigate = useNavigate();
     const OnClickBackButton = () => {
         console.log('뒤로가기 버튼 클릭함');
         navigate(`/main`);
