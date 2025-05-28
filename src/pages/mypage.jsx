@@ -159,7 +159,6 @@ export default function MyPage(){
       }
 
     const studentNumber = "202302573";
-    const navigate = useNavigate();
 
     const MockData = {
         name: "김부력",
