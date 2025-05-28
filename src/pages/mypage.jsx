@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as BackgroundOwl } from "../svg/backgroundowl.svg";
 import { useState } from "react";
 import api from "../axios";
+import { useNavigate } from "react-router-dom";
 
 const PageContainer = styled.div`
     position: relative;
@@ -152,6 +153,10 @@ const StyledBackgroundOwl = styled(BackgroundOwl)`
 
 
 export default function MyPage(){
+    const navigate = useNavigate();
+    const goTologin = () => {
+        navigate("/login")
+      }
 
     const studentNumber = "202302573";
 
