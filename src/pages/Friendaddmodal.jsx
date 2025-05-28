@@ -253,7 +253,7 @@ export default function Friendaddmodal(){
             <PageContainer>
                 <HeaderContainer>
                     <AddFriendText>친구 추가하기</AddFriendText>
-                    <CancelIcon/>
+                    <CancelIcon onClick={closeModal} style={{ cursor: 'pointer' }} />
                 </HeaderContainer>
 
                 <SearchContainer>

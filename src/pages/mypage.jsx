@@ -159,6 +159,7 @@ export default function MyPage(){
       }
 
     const studentNumber = "202302573";
+    const navigate = useNavigate();
 
     const MockData = {
         name: "김부력",
@@ -183,6 +184,11 @@ export default function MyPage(){
     
         fetchUserInfo(); 
       }, []);
+
+      const goTologin = () => {
+        navigate("/login")
+      }
+    
  
     return(
         <div>

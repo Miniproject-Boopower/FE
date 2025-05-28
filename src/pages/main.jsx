@@ -5,6 +5,10 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import api from "../axios";
+import { ReactComponent as Logo } from '../svg/BoooLogo.svg';
+import { ReactComponent as MyLogo } from '../svg/BooProfile1.svg';
+import { ReactComponent as FoneLogo } from '../svg/BooProfile2.svg';
+import { ReactComponent as FtwoLogo } from '../svg/BooProfile3.svg';
 
 
 const PageContainer = styled.div`
@@ -32,10 +36,9 @@ const TitleContainer = styled.div`
     flex-direction: row;
 `
 
-const Img = styled.div`
+const Img = styled(Logo)`
     width : 2.75rem;
     height : 2.75rem;
-    background-color:yellow;
 `
 const HeaderText = styled.h1`
     color: #635F5F;
@@ -113,10 +116,9 @@ const MydownContainer = styled.div`
     z-index: 1;
     margin-top: -1.56rem;
 `
-const MyImg = styled.div`
+const MyImg = styled(MyLogo)`
     width: 4.375rem;
     height: 4.375rem;
-    background-color: red;
 `
 const MyTitle = styled.h1`
     color: #000;
@@ -135,10 +137,14 @@ const Arrow = styled(IoIosArrowForward)`
     margin-top: 1.75rem;
 `
 
-const CircleImg = styled.div`
+const CircleImgone = styled(FoneLogo)`
     width: 3.125rem;
     height: 3.125rem;
-    background-color: blue;
+    border-radius: 3.125rem;
+`
+const CircleImgtwo = styled(FtwoLogo)`
+    width: 3.125rem;
+    height: 3.125rem;
     border-radius: 3.125rem;
 `
 const Dday = styled.div`
@@ -301,6 +307,7 @@ const CalenderText = styled.h4`
 
 
 
+
 export default function Main({id}){
 
     const memos = Array(14).fill(0);
@@ -352,6 +359,10 @@ export default function Main({id}){
         navigate("/mypage")
     }
 
+    const gotoFriend = () => {
+        navigate("/friend")
+    }
+
     return(
         <PageContainer>
             <HeaderContainer>
@@ -368,26 +379,25 @@ export default function Main({id}){
                     <Arrow onClick={gotoMypage}/>
                 </MyContainer>
                 <MydownContainer>
-                    <CircleImg/>
-                    <CircleImg/>
-                    <CircleImg/>
+                    <CircleImgone onClick={gotoFriend}/>
+                    <CircleImgtwo onClick={gotoFriend}/>
+                    <CircleImgtwo onClick={gotoFriend}/>
                 </MydownContainer>
             </FriendContainer>
-            {loading ? (
+                {loading ? (
                 <p>로딩 중...</p>
-            ) : (
-            <DayContainer>
-                        <Dday>D-Day</Dday>
-                    {Array.isArray(ddaydata) && ddaydata.map((item, index) => (
-                        <DdayContainer key={index}>
-                            <InfoIcon />
-                            <DdayText>{item.leftDay}</DdayText>
-                            <DdaymiddleText>{item.assignmentName}</DdaymiddleText>
-                        </DdayContainer>
-                  
-                ))}
-              </DayContainer>
-            )}
+                ) : (
+                <DayContainer>
+                    <Dday>D-Day</Dday>
+                    {Array.isArray(ddaydata) && ddaydata.slice(0, 3).map((item, index) => (
+                    <DdayContainer key={index}>
+                        <InfoIcon />
+                        <DdayText>{item.leftDay}</DdayText>
+                        <DdaymiddleText>{item.assignmentName}</DdaymiddleText>
+                    </DdayContainer>
+                    ))}
+                </DayContainer>
+                )}
                 <TodoContainer>
                     <MemoContainer>
                         {memos.map((_, index) => (

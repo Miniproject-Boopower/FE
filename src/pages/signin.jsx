@@ -118,11 +118,19 @@ export default function Signin() {
     }
 
     try {
+
       const response = await api.post("/api/v1/user/sign-up", 
         mockdata)
       alert("회원가입 성공!")
       console.log(response.data)
-      navigate("/login");
+
+      const crawlingone = await api.post(`/api/v1/crawling/course/${id}`);
+      console.log("보냈으1" , crawlingone.data);
+
+      const crawlingtwo = await api.post(`/api/v1/crawling/assignment/all/${id}`);
+      console.log("보냈으2" , crawlingtwo.data);
+
+      navigate("/");
     } catch (error) {
       console.error("회원가입 오류", error)
       alert("회원가입 실패")
