@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { useState } from "react";
 import api from "../axios";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as LoginLogo } from '../svg/loginlogo.svg';
+
+
 const PageContainer = styled.div`
   width: 25.125rem;
   height: 54.625rem;
@@ -130,6 +133,11 @@ const InputContainer = styled.div`
   gap: 0.56rem;
 `;
 
+const AppLogo = styled(LoginLogo)`
+  width: 12.1875rem;
+  height: 12.1875rem;
+`
+
 export default function Login() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -164,6 +172,7 @@ export default function Login() {
           계획 세우기도 힘이니까! <br />
           BOO력!
         </p>
+        <AppLogo/>
       </Box2>
       <InputContainer>
         <IdInput

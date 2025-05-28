@@ -7,7 +7,7 @@ import { FaHeart } from "react-icons/fa";
 import { BiTrash } from "react-icons/bi";
 import api from "../axios";
 import { useEffect } from "react";
-
+import Friendaddmodal from "./Friendaddmodal";
 //리액트 아이콘
 const Arrow = styled(FaArrowLeft)`
     width: 1.56rem;
@@ -257,18 +257,29 @@ export default function Friend(){
         }
     };
 
+
+        const [modalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
+
     return(
 
         <PageContainer>
             <Header>
                 <FaArrowLeft />
                 <h3>친구목록</h3>
-                <MdOutlinePersonAddAlt />
+                <MdOutlinePersonAddAlt onClick={openModal} style={{ cursor: 'pointer' }} />
             </Header>
 
             <SearchArea>
                 <SearchBorder>
-                    <FaMagnifyingGlass />
                     <SearchInput placeholder="친구를 추가해보세요!">
                     </SearchInput>
                 </SearchBorder>
@@ -303,7 +314,21 @@ export default function Friend(){
                     </FriendBar>
                 ))}
             </FriendListArea>
-        
+
+                        {modalOpen && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    backgroundColor: 'rgba(0,0,0,0.3)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 999
+                }}>
+                    <Friendaddmodal closeModal={closeModal} />
+                </div>
+            )}
+                    
         </PageContainer>
     )
 }
