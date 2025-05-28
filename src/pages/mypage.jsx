@@ -153,6 +153,10 @@ const StyledBackgroundOwl = styled(BackgroundOwl)`
 
 
 export default function MyPage(){
+    const navigate = useNavigate();
+    const goTologin = () => {
+        navigate("/login")
+      }
 
     const studentNumber = "202302573";
     const navigate = useNavigate();

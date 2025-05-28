@@ -227,18 +227,20 @@ export default function Friend(){
     const Stnum = localStorage.getItem("studentId");
     useEffect(() => {
         const fetchFriends = async () => {
-            try {
-                const res = await api.post("/api/friends/list", {
-                    studentNumber: Stnum,
-                  });
-                setFriendList(res.data);; // 받아온 친구 목록 저장
-            } catch (err) {
-                console.error("친구 목록 불러오기 실패", err);
-            }
+          try {
+            const res = await api.get("/api/friends/list", {
+              params: {
+                request: Stnum,
+              },
+            });
+            setFriendList(res.data); 
+          } catch (err) {
+            console.error("친구 목록 불러오기 실패", err);
+          }
         };
-
+      
         fetchFriends();
-    }, [Stnum]);
+      }, [Stnum]);
 
     const handleHeartClick = async () => {
         const endpoint = isBestFriend ? "/api/friends/unbest" : "/api/friends/best";
@@ -328,7 +330,8 @@ export default function Friend(){
                     <Friendaddmodal closeModal={closeModal} />
                 </div>
             )}
-                    
+                   
+
         </PageContainer>
     )
 }
